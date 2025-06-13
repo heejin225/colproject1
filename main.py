@@ -116,8 +116,8 @@ fig = px.scatter_mapbox(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-    
-    if not merged_df.empty:
+
+ if not merged_df.empty:
         merged_df['점포당_매출액'] = merged_df['당월_매출_금액'] / merged_df['점포_수'].replace(0, 1)
         
         tab1, tab2 = st.tabs(["📊 종합 비교", "🏆 순위 비교"])
