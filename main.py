@@ -77,6 +77,43 @@ selected_dong = st.sidebar.selectbox(
 
 # --- UI 분기: 전체 vs 상세 ---
 if selected_dong == "전체":
+    # --- [NEW] 좌표 데이터 불러오기 ---
+coord_df = pd.read_excel("/mnt/data/행정구역별_위경도_좌표.xlsx")
+coord_df = coord_df[['행정동_코드_명', 'lat', 'lon']]
+
+# merged_df에 좌표 붙이기
+merged_df = pd.merge(merged_df, coord_df, on='행정동_코드_명', how='left')
+
+# 지도 시각화용 데이터 만들기
+map_df = merged_df.dropna(subset=['lat', 'lon'])
+
+# --- [NEW] 지도 시각화 ---
+import plotly.express as px
+
+st.subheader("🗺️ 행정동별 커피 업종 매출 지도")
+
+fig = px.scatter_mapbox(
+    map_df,
+    lat="lat",
+    lon="lon",
+    size="당월_매출_금액",  # 버블 크기
+    color="점포당_매출액",  # 색상
+    color_continuous_scale="Viridis",
+    size_max=30,
+    zoom=10,
+    mapbox_style="carto-positron",
+    hover_name="행정동_코드_명",
+    hover_data={
+        "점포_수": True,
+        "당월_매출_금액": True,
+        "점포당_매출액": True,
+        "lat": False,
+        "lon": False
+    },
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
     st.title("☕ 커피-음료 업종 전체 동향 분석")
     st.subheader(f"📈 전체 행정동 비교 분석 (기준: {format_quarter(selected_quarter)})")
     
