@@ -67,7 +67,7 @@ selected_dong = st.sidebar.selectbox(
 )
 
 # --- 좌표 데이터 불러오기 ---
-coord_df = pd.read_excel("/mnt/data/행정구역별_위경도_좌표.csv")
+coord_df = pd.read_csv("/mnt/data/행정구역별_위경도_좌표.csv")
 coord_df = coord_df[['행정동_코드_명', 'lat', 'lon']]
 
 merged_df = pd.merge(merged_df, coord_df, on='행정동_코드_명', how='left')
