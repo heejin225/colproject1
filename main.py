@@ -77,7 +77,10 @@ selected_dong = st.sidebar.selectbox(
 
 # --- UI 분기: 전체 vs 상세 ---
 if selected_dong == "전체":
-    # --- [NEW] 좌표 데이터 불러오기 ---
+    st.title("☕ 커피-음료 업종 전체 동향 분석")
+    st.subheader(f"📈 전체 행정동 비교 분석 (기준: {format_quarter(selected_quarter)})")
+    
+# --- [NEW] 좌표 데이터 불러오기 ---
 coord_df = pd.read_excel("/mnt/data/행정구역별_위경도_좌표.xlsx")
 coord_df = coord_df[['행정동_코드_명', 'lat', 'lon']]
 
@@ -113,9 +116,6 @@ fig = px.scatter_mapbox(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
-    st.title("☕ 커피-음료 업종 전체 동향 분석")
-    st.subheader(f"📈 전체 행정동 비교 분석 (기준: {format_quarter(selected_quarter)})")
     
     if not merged_df.empty:
         merged_df['점포당_매출액'] = merged_df['당월_매출_금액'] / merged_df['점포_수'].replace(0, 1)
