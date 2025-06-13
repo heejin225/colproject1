@@ -9,9 +9,9 @@ st.set_page_config(layout="wide")
 @st.cache_data
 def load_data():
     try:
-        store_df = pd.read_csv('서울시 상권분석서비스(점포-행정동).csv', encoding='euc-kr')
-        pop_df = pd.read_csv('서울시 상권분석서비스(길단위인구-행정동).csv', encoding='euc-kr')
-        sales_df = pd.read_csv('서울시 상권분석서비스(추정매출-행정동).csv', encoding='euc-kr')
+        store_df = pd.read_csv('서울시 상권분석서비스(점포-행정동).csv', encoding='utf-8')   # 인코딩 변경
+        pop_df = pd.read_csv('서울시 상권분석서비스(길단위인구-행정동).csv', encoding='utf-8')  # 인코딩 변경
+        sales_df = pd.read_csv('서울시 상권분석서비스(추정매출-행정동).csv', encoding='utf-8')  # 인코딩 변경
     except FileNotFoundError as e:
         st.error(f"데이터 파일을 찾을 수 없습니다: {e.filename}. 모든 CSV 파일이 올바른 위치에 있는지 확인해주세요.")
         return None, None, None
@@ -21,9 +21,8 @@ def load_data():
 
     return coffee_store_df, pop_df, coffee_sales_df
 
-coffee_df, pop_df, sales_df = load_data()
-if coffee_df is None or pop_df is None or sales_df is None:
-    st.stop()
+# --- 좌표 데이터 불러오기 ---
+coord_df = pd.read_csv("/mnt/data/행정구역별_위경도_좌표.csv", encoding='utf-8')  # 인코딩 추가
 
 # --- 데이터 전처리 ---
 pop_agg_df = pop_df.groupby(['기준_년분기_코드', '행정동_코드', '행정동_코드_명'])['총_유동인구_수'].sum().reset_index()
