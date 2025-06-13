@@ -210,4 +210,4 @@ else:
         pop_res, sales_res = get_grouped_data('연령대', pop_cols, sales_cols)
         c1, c2 = st.columns(2)
         c1.plotly_chart(px.bar(pop_res, x='연령대', y='유동인구', title='연령대별 유동인구'), use_container_width=True)
-        c2.plotly_chart(px.bar(sales_res, x='연령대', y
+        c2.plotly_chart(px.bar(sales_res, x='연령대', y='매출액', title='연령대별 매출액'), use_container_width=True)
