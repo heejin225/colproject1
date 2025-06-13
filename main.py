@@ -21,6 +21,20 @@ def load_data():
 
     return coffee_store_df, pop_df, coffee_sales_df
 
+import os
+import streamlit as st
+
+st.write("==== /mnt/data 폴더 내 파일 목록 ====")
+try:
+    files = os.listdir("/mnt/data")
+    if files:
+        for file in files:
+            st.write(file)
+    else:
+        st.write("폴더가 비어있습니다.")
+except FileNotFoundError:
+    st.write("/mnt/data 폴더가 존재하지 않습니다.")
+
 # --- 좌표 데이터 불러오기 ---
 coord_df = pd.read_csv("/mnt/data/행정구역별_위경도_좌표.csv", encoding='utf-8')  # 인코딩 추가
 
